@@ -1,9 +1,9 @@
 name: Deploy AWS CloudFormation terraform_state/stack
 
-on: [push]
-  # push:
-  #   paths:
-  #   - terraform_state
+on:
+  push:
+    paths:
+    - terraform_state
 
 jobs:
   deploy:
