@@ -21,7 +21,11 @@ jobs:
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 1200
-      
+
+      - name: Change directory
+        id: change_directory
+        run: cd terraform
+
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
 
