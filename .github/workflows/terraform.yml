@@ -1,4 +1,4 @@
-name: Deploy AWS CloudFormation terraform_state/stack
+name: Deploy terraform
 
 on:
   push:
