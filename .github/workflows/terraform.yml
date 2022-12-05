@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    name: Run terraform apply
     environment: latschesar-atanassov
     runs-on: ubuntu-latest
     steps:
@@ -38,5 +39,10 @@ jobs:
         id: plan
         working-directory: ./terraform
         run: terraform plan
+
+      - name: Terraform Apply
+        id: apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve
       
 
