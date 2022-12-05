@@ -3,7 +3,7 @@ name: Deploy AWS CloudFormation terraform_state/stack
 on:
   push:
     paths:
-    - '.github/workflows/terraform.yml'
+    - '.github/workflows/terraform_state.yml'
     - 'terraform_state/**.yml'
 
 jobs:
