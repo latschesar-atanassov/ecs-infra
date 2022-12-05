@@ -7,6 +7,7 @@ on: [push]
 
 jobs:
   deploy:
+    environment: latschesar-atanassov
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
