@@ -16,4 +16,4 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: terrafrom_state
-          template: terraform_state/stack.yaml
+          template: terraform_state/stack.yml
