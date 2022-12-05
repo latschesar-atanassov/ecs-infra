@@ -1,4 +1,4 @@
-name: Deploy terraform state infrastructure
+name: Deploy AWS CloudFormation terraform_state/stack
 
 on: [push]
   # push:
@@ -12,8 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Deploy AWS CloudFormation terraform_state/stack
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          aws-region: eu-central-1
-          role-to-assume: arn:aws:iam::971776360507:role/gha_terraform_deployer
+          name: terrafrom_state
+          template: terraform_state/stack.yaml
