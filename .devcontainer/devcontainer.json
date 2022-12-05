@@ -1,0 +1,59 @@
+{
+	"name": "terraform",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {}
+	},
+	// "runArgs": [
+	// 	"--cap-add=SYS_PTRACE",
+	// 	"--security-opt",
+	// 	"seccomp=unconfined"
+	// ],
+	// Set *default* container specific settings.json values on container create.
+	"settings": {},
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"medo64.render-crlf",
+		"2gua.rainbow-brackets",
+		"alefragnani.project-manager",
+		"amazonwebservices.aws-toolkit-vscode",
+		"christian-kohler.path-intellisense",
+		"codezombiech.gitignore",
+		"DavidAnson.vscode-markdownlint",
+		"donjayamanne.githistory",
+		"eamodio.gitlens",
+		"EditorConfig.EditorConfig",
+		"Gruntfuggly.todo-tree",
+		"hashicorp.terraform",
+		"hediet.vscode-drawio",
+		"johnpapa.vscode-peacock",
+		"ms-azuretools.vscode-docker",
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"ms-vsliveshare.vsliveshare",
+		"ms-vsliveshare.vsliveshare-audio",
+		"njpwerner.autodocstring",
+		"redhat.vscode-yaml",
+		"VisualStudioExptTeam.vscodeintellicode",
+		"wholroyd.jinja",
+		"samuelcolvin.jinjahtml",
+		"yzhang.markdown-all-in-one",
+		"rogalmic.bash-debug"
+	],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [9000],
+	// Use 'portsAttributes' to set default properties for specific forwarded ports. More info: https://code.visualstudio.com/docs/remote/devcontainerjson-reference.
+	"portsAttributes": {},
+	// Use 'otherPortsAttributes' to configure any ports that aren't configured using 'portsAttributes'.
+	// "otherPortsAttributes": {
+	// 		"onAutoForward": "silent"
+	// },
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "go version",
+	// Uncomment to connect as a non-root user. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "root",
+
+	"mounts": [
+		"source=//var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	]
+}
