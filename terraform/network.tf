@@ -1,3 +1,5 @@
+// network
+
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 }
@@ -18,6 +20,17 @@ resource "aws_subnet" "private_database" {
 
 }
 
+// internet gateway
+
+resource "aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
+}
+
+resource "aws_internet_gateway_attachment" "main" {
+  internet_gateway_id = aws_internet_gateway.main.id
+  vpc_id              = aws_vpc.main.id
+}
+
 // route tables
 
 resource "aws_route_table" "public" {
@@ -25,7 +38,7 @@ resource "aws_route_table" "public" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.example.id
+    gateway_id = aws_internet_gateway.main.id
   }
 }
 
@@ -36,7 +49,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route_table_association" "public_load_balancer_route_table" {
-  subnet_id      = aws_subnet.public_load_balancer
+  subnet_id      = aws_subnet.public_load_balancer.id
   route_table_id = aws_route_table.public.id
 }
 
@@ -46,6 +59,6 @@ resource "aws_route_table_association" "private_api_route_table" {
 }
 
 resource "aws_route_table_association" "private_database_route_table" {
-  subnet_id      = aws_subnet.private_database_route_table.id
+  subnet_id      = aws_subnet.private_database.id
   route_table_id = aws_route_table.private.id
 }
