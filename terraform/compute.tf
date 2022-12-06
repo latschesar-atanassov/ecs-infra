@@ -27,7 +27,7 @@ module "ecs" {
 
   tags = {
     Name        = "${local.name_prefix}_ecs"
-    Environment = var.environment
+    Environment = local.environment
   }
 }
 
@@ -38,6 +38,6 @@ resource "aws_cloudwatch_log_group" "this" {
 
   tags = {
     Name        = "${local.name_prefix}_cw"
-    Environment = var.environment
+    Environment = local.environment
   }
 }

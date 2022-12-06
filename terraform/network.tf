@@ -4,7 +4,7 @@ resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   tags = {
     Name        = "${local.name_prefix}_vpc"
-    Environment = var.environment
+    Environment = local.environment
   }
 }
 
@@ -14,7 +14,7 @@ resource "aws_subnet" "public_load_balancer" {
 
   tags = {
     Name        = "${local.name_prefix}_public_snet_load_balancer"
-    Environment = var.environment
+    Environment = local.environment
   }
 }
 
@@ -23,7 +23,7 @@ resource "aws_subnet" "private_api" {
   cidr_block = "10.0.2.0/24"
   tags = {
     Name        = "${local.name_prefix}_private_snet_api"
-    Environment = var.environment
+    Environment = local.environment
   }
 }
 
@@ -33,7 +33,7 @@ resource "aws_subnet" "private_database" {
 
   tags = {
     Name        = "${local.name_prefix}_private_snet_database"
-    Environment = var.environment
+    Environment = local.environment
   }
 
 }
@@ -45,7 +45,7 @@ resource "aws_internet_gateway" "main" {
 
   tags = {
     Name        = "${local.name_prefix}_igw"
-    Environment = var.environment
+    Environment = local.environment
   }
 }
 
@@ -61,7 +61,7 @@ resource "aws_route_table" "public" {
 
   tags = {
     Name        = "${local.name_prefix}_public_rt"
-    Environment = var.environment
+    Environment = local.environment
   }
 }
 
@@ -72,7 +72,7 @@ resource "aws_route_table" "private" {
 
   tags = {
     Name        = "${local.name_prefix}_private_rt"
-    Environment = var.environment
+    Environment = local.environment
   }
 }
 
