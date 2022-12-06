@@ -48,7 +48,7 @@ module "ecr" {
 
   repository_name = local.repository_name
 
-  repository_read_write_access_arns = [data.gha_app_deployer.arn]
+  repository_read_write_access_arns = [data.aws_iam_role.gha_app_deployer.arn]
   repository_read_access_arns = []
   
   repository_lifecycle_policy = jsonencode({
