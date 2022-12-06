@@ -41,3 +41,35 @@ resource "aws_cloudwatch_log_group" "this" {
     Environment = local.environment
   }
 }
+
+
+module "ecr" {
+  source = "terraform-aws-modules/ecr/aws"
+
+  repository_name = local.repository_name
+
+  repository_read_write_access_arns = [data.gha_app_deployer.arn]
+  repository_read_access_arns = []
+  
+  repository_lifecycle_policy = jsonencode({
+    rules = [
+      {
+        rulePriority = 1,
+        description  = "keep last 30 images",
+        selection = {
+          tagStatus     = "any",
+          countType     = "imageCountMoreThan",
+          countNumber   = 30
+        },
+        action = {
+          type = "expire"
+        }
+      }
+    ]
+  })
+
+  tags = {
+    Terraform   = "true"
+    Environment = local.environment
+  }
+}
