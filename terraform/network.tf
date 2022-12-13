@@ -20,7 +20,7 @@ resource "aws_subnet" "public_load_balancer" {
 
 resource "aws_subnet" "private_api" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.2.0/24"
+  cidr_block = var.private_snet_api_cidr
   tags = {
     Name        = "${local.name_prefix}_private_snet_api"
     Environment = local.environment
@@ -92,6 +92,27 @@ resource "aws_route_table_association" "private_database_route_table" {
 }
 
 resource "aws_vpc_endpoint" "ecr" {
-  vpc_id       = aws_vpc.main.id
-  service_name = "com.amazonaws.eu-central-1.ecr.dkr"
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.eu-central-1.ecr.dkr"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    aws_security_group.vpc_endpoint_ecr.id,
+  ]
+
+  private_dns_enabled = true
+}
+
+// security group
+
+resource "aws_security_group" "vpc_endpoint_ecr" {
+  name   = "demo_ecr_security_group"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = [var.private_snet_api_cidr]
+  }
 }
