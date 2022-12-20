@@ -11,34 +11,100 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_subnet" "public_load_balancer" {
+resource "aws_subnet" "public_snet_a" {
   vpc_id     = aws_vpc.main.id
   cidr_block = "10.0.1.0/24"
+  availability_zone = "eu-central-1a"
 
   tags = {
-    Name        = "${local.name_prefix}_public_snet_load_balancer"
+    Name        = "${local.name_prefix}_public_snet_a"
     Environment = local.environment
   }
 }
 
-resource "aws_subnet" "private_api" {
+resource "aws_subnet" "public_snet_b" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = var.private_snet_api_cidr
+  cidr_block = "10.0.2.0/24"
+  availability_zone = "eu-central-1b"
+
   tags = {
-    Name        = "${local.name_prefix}_private_snet_api"
+    Name        = "${local.name_prefix}_public_snet_b"
     Environment = local.environment
   }
 }
 
-resource "aws_subnet" "private_database" {
+resource "aws_subnet" "public_snet_c" {
   vpc_id     = aws_vpc.main.id
   cidr_block = "10.0.3.0/24"
+  availability_zone = "eu-central-1c"
 
   tags = {
-    Name        = "${local.name_prefix}_private_snet_database"
+    Name        = "${local.name_prefix}_public_snet_c"
     Environment = local.environment
   }
+}
 
+resource "aws_subnet" "private_snet_app_a" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = var.private_snet_app_a_cidr_block
+  availability_zone = "eu-central-1a"
+  tags = {
+    Name        = "${local.name_prefix}_private_snet_app_a"
+    Environment = local.environment
+  }
+}
+
+resource "aws_subnet" "private_snet_app_b" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = var.private_snet_app_b_cidr_block
+  availability_zone = "eu-central-1b"
+  tags = {
+    Name        = "${local.name_prefix}_private_snet_app_b"
+    Environment = local.environment
+  }
+}
+
+resource "aws_subnet" "private_snet_app_c" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = var.private_snet_app_c_cidr_block
+  availability_zone = "eu-central-1c"
+  tags = {
+    Name        = "${local.name_prefix}_private_snet_app_c"
+    Environment = local.environment
+  }
+}
+
+resource "aws_subnet" "private_snet_data_a" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.0.21.0/24"
+  availability_zone = "eu-central-1a"
+
+  tags = {
+    Name        = "${local.name_prefix}_private_snet_data_a"
+    Environment = local.environment
+  }
+}
+
+resource "aws_subnet" "private_snet_data_b" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.0.22.0/24"
+  availability_zone = "eu-central-1b"
+
+  tags = {
+    Name        = "${local.name_prefix}_private_snet_data_b"
+    Environment = local.environment
+  }
+}
+
+resource "aws_subnet" "private_snet_data_c" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.0.22.0/24"
+  availability_zone = "eu-central-1c"
+
+  tags = {
+    Name        = "${local.name_prefix}_private_snet_data_c"
+    Environment = local.environment
+  }
 }
 
 // internet gateway
@@ -79,18 +145,48 @@ resource "aws_route_table" "private" {
   }
 }
 
-resource "aws_route_table_association" "public_load_balancer_route_table" {
-  subnet_id      = aws_subnet.public_load_balancer.id
+resource "aws_route_table_association" "public_snet_a_rta" {
+  subnet_id      = aws_subnet.public_snet_a
   route_table_id = aws_route_table.public.id
 }
 
-resource "aws_route_table_association" "private_api_route_table" {
-  subnet_id      = aws_subnet.private_api.id
+resource "aws_route_table_association" "public_snet_b_rta" {
+  subnet_id      = aws_subnet.public_snet_b
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "public_snet_c_route_rta" {
+  subnet_id      = aws_subnet.public_snet_a
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "private_snet_app_a_rta" {
+  subnet_id      = aws_subnet.private_snet_app_a.id
   route_table_id = aws_route_table.private.id
 }
 
-resource "aws_route_table_association" "private_database_route_table" {
-  subnet_id      = aws_subnet.private_database.id
+resource "aws_route_table_association" "private_snet_app_b_rta" {
+  subnet_id      = aws_subnet.private_snet_app_b.id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private_snet_app_c_rta" {
+  subnet_id      = aws_subnet.private_snet_app_c.id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private_snet_data_a_rta" {
+  subnet_id      = aws_subnet.private_snet_data_a.id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private_snet_data_b_rta" {
+  subnet_id      = aws_subnet.private_snet_data_b.id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private_snet_data_c_rta" {
+  subnet_id      = aws_subnet.private_snet_data_c.id
   route_table_id = aws_route_table.private.id
 }
 
@@ -116,6 +212,10 @@ resource "aws_security_group" "vpc_endpoint_ecr" {
     protocol    = "tcp"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = [var.private_snet_api_cidr]
+    cidr_blocks = [
+      var.private_snet_app_a_cidr_block,
+      var.private_snet_app_b_cidr_block,
+      var.private_snet_app_c_cidr_block
+    ]
   }
 }
