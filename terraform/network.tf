@@ -98,7 +98,7 @@ resource "aws_subnet" "private_snet_data_b" {
 
 resource "aws_subnet" "private_snet_data_c" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.22.0/24"
+  cidr_block = "10.0.23.0/24"
   availability_zone = "eu-central-1c"
 
   tags = {
