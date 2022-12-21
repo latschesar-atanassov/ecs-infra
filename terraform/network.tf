@@ -1,8 +1,8 @@
 // network
 
 resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
-  enable_dns_support = true
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
@@ -12,8 +12,8 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "public_snet_a" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
   availability_zone = "eu-central-1a"
 
   tags = {
@@ -23,8 +23,8 @@ resource "aws_subnet" "public_snet_a" {
 }
 
 resource "aws_subnet" "public_snet_b" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.2.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.2.0/24"
   availability_zone = "eu-central-1b"
 
   tags = {
@@ -34,8 +34,8 @@ resource "aws_subnet" "public_snet_b" {
 }
 
 resource "aws_subnet" "public_snet_c" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.3.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.3.0/24"
   availability_zone = "eu-central-1c"
 
   tags = {
@@ -45,8 +45,8 @@ resource "aws_subnet" "public_snet_c" {
 }
 
 resource "aws_subnet" "private_snet_app_a" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = var.private_snet_app_a_cidr_block
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_snet_app_a_cidr_block
   availability_zone = "eu-central-1a"
   tags = {
     Name        = "${local.name_prefix}_private_snet_app_a"
@@ -55,8 +55,8 @@ resource "aws_subnet" "private_snet_app_a" {
 }
 
 resource "aws_subnet" "private_snet_app_b" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = var.private_snet_app_b_cidr_block
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_snet_app_b_cidr_block
   availability_zone = "eu-central-1b"
   tags = {
     Name        = "${local.name_prefix}_private_snet_app_b"
@@ -65,8 +65,8 @@ resource "aws_subnet" "private_snet_app_b" {
 }
 
 resource "aws_subnet" "private_snet_app_c" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = var.private_snet_app_c_cidr_block
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_snet_app_c_cidr_block
   availability_zone = "eu-central-1c"
   tags = {
     Name        = "${local.name_prefix}_private_snet_app_c"
@@ -75,8 +75,8 @@ resource "aws_subnet" "private_snet_app_c" {
 }
 
 resource "aws_subnet" "private_snet_data_a" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.21.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.21.0/24"
   availability_zone = "eu-central-1a"
 
   tags = {
@@ -86,8 +86,8 @@ resource "aws_subnet" "private_snet_data_a" {
 }
 
 resource "aws_subnet" "private_snet_data_b" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.22.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.22.0/24"
   availability_zone = "eu-central-1b"
 
   tags = {
@@ -97,8 +97,8 @@ resource "aws_subnet" "private_snet_data_b" {
 }
 
 resource "aws_subnet" "private_snet_data_c" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.23.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.23.0/24"
   availability_zone = "eu-central-1c"
 
   tags = {
@@ -190,13 +190,51 @@ resource "aws_route_table_association" "private_snet_data_c_rta" {
   route_table_id = aws_route_table.private.id
 }
 
-resource "aws_vpc_endpoint" "ecr" {
+
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.eu-central-1.s3"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    aws_security_group.allow_incoming_https.id,
+  ]
+
+  private_dns_enabled = true
+}
+
+resource "aws_vpc_endpoint" "cloudwatch" {
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.eu-central-1.logs"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    aws_security_group.allow_incoming_https.id,
+  ]
+
+  private_dns_enabled = true
+}
+
+resource "aws_vpc_endpoint" "ecr_dkr" {
   vpc_id            = aws_vpc.main.id
   service_name      = "com.amazonaws.eu-central-1.ecr.dkr"
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.vpc_endpoint_ecr.id,
+    aws_security_group.allow_incoming_https.id,
+  ]
+
+  private_dns_enabled = true
+}
+
+
+resource "aws_vpc_endpoint" "ecr_api" {
+  vpc_id            = aws_vpc.main.id
+  service_name      = "com.amazonaws.eu-central-1.ecr.api"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    aws_security_group.allow_incoming_https.id,
   ]
 
   private_dns_enabled = true
@@ -204,14 +242,14 @@ resource "aws_vpc_endpoint" "ecr" {
 
 // security group
 
-resource "aws_security_group" "vpc_endpoint_ecr" {
-  name   = "demo_ecr_security_group"
+resource "aws_security_group" "allow_incoming_https" {
+  name   = "allow_incoming_https"
   vpc_id = aws_vpc.main.id
 
   ingress {
-    protocol    = "tcp"
-    from_port   = 0
-    to_port     = 0
+    protocol  = "tcp"
+    from_port = 0
+    to_port   = 443
     cidr_blocks = [
       var.private_snet_app_a_cidr_block,
       var.private_snet_app_b_cidr_block,
