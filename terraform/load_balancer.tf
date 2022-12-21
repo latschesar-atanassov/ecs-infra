@@ -46,15 +46,15 @@ resource "aws_alb_listener" "http_redirect" {
   }
 }
  
-resource "aws_alb_listener" "https" {
-  load_balancer_arn = aws_lb.main.id
-  port              = 443
-  protocol          = "HTTPS"
+# resource "aws_alb_listener" "https" {
+#   load_balancer_arn = aws_lb.main.id
+#   port              = 443
+#   protocol          = "HTTPS"
  
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
+#   ssl_policy        = "ELBSecurityPolicy-2016-08"
  
-  default_action {
-    target_group_arn = aws_alb_target_group.main.id
-    type             = "forward"
-  }
-}
+#   default_action {
+#     target_group_arn = aws_alb_target_group.main.id
+#     type             = "forward"
+#   }
+# }
