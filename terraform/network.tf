@@ -271,17 +271,22 @@ resource "aws_security_group" "allow_incoming_http_https_from_internet" {
   vpc_id = aws_vpc.main.id
 
   ingress {
-    protocol  = "tcp"
-    from_port = 0
-    to_port   = 80
+    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 80
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    protocol  = "tcp"
-    from_port = 0
-    to_port   = 443
+    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name        = "allow_incoming_http_https_from_internet"
+    Environment = local.environment
   }
 }
 
