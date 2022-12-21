@@ -197,7 +197,7 @@ resource "aws_vpc_endpoint" "s3" {
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.allow_incoming_https.id,
+    aws_security_group.allow_incoming_https_from_app.id,
   ]
 
   subnet_ids = [
@@ -215,7 +215,7 @@ resource "aws_vpc_endpoint" "cloudwatch" {
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.allow_incoming_https.id,
+    aws_security_group.allow_incoming_https_from_app.id,
   ]
 
   subnet_ids = [
@@ -233,7 +233,7 @@ resource "aws_vpc_endpoint" "ecr_dkr" {
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.allow_incoming_https.id,
+    aws_security_group.allow_incoming_https_from_app.id,
   ]
 
   subnet_ids = [
@@ -252,7 +252,7 @@ resource "aws_vpc_endpoint" "ecr_api" {
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.allow_incoming_https.id,
+    aws_security_group.allow_incoming_https_from_internet.id,
   ]
 
   subnet_ids = [
@@ -266,8 +266,27 @@ resource "aws_vpc_endpoint" "ecr_api" {
 
 // security group
 
-resource "aws_security_group" "allow_incoming_https" {
-  name   = "allow_incoming_https"
+resource "aws_security_group" "allow_incoming_http_https_from_internet" {
+  name   = "allow_incoming_http_https_from_internet"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    protocol  = "tcp"
+    from_port = 0
+    to_port   = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    protocol  = "tcp"
+    from_port = 0
+    to_port   = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "allow_incoming_https_from_app" {
+  name   = "allow_incoming_https_from_app"
   vpc_id = aws_vpc.main.id
 
   ingress {
@@ -281,3 +300,4 @@ resource "aws_security_group" "allow_incoming_https" {
     ]
   }
 }
+
