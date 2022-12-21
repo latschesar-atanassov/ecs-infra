@@ -252,7 +252,7 @@ resource "aws_vpc_endpoint" "ecr_api" {
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.allow_incoming_https_from_internet.id,
+    aws_security_group.allow_incoming_https_from_app.id,
   ]
 
   subnet_ids = [
