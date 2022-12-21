@@ -200,7 +200,13 @@ resource "aws_vpc_endpoint" "s3" {
     aws_security_group.allow_incoming_https.id,
   ]
 
-  private_dns_enabled = true
+  subnet_ids = [
+    aws_subnet.private_snet_app_a.id,
+    aws_subnet.private_snet_app_b.id,
+    aws_subnet.private_snet_app_c.id,
+  ]
+
+  private_dns_enabled = false
 }
 
 resource "aws_vpc_endpoint" "cloudwatch" {
@@ -210,6 +216,12 @@ resource "aws_vpc_endpoint" "cloudwatch" {
 
   security_group_ids = [
     aws_security_group.allow_incoming_https.id,
+  ]
+
+  subnet_ids = [
+    aws_subnet.private_snet_app_a.id,
+    aws_subnet.private_snet_app_b.id,
+    aws_subnet.private_snet_app_c.id,
   ]
 
   private_dns_enabled = true
@@ -224,6 +236,12 @@ resource "aws_vpc_endpoint" "ecr_dkr" {
     aws_security_group.allow_incoming_https.id,
   ]
 
+  subnet_ids = [
+    aws_subnet.private_snet_app_a.id,
+    aws_subnet.private_snet_app_b.id,
+    aws_subnet.private_snet_app_c.id,
+  ]
+
   private_dns_enabled = true
 }
 
@@ -235,6 +253,12 @@ resource "aws_vpc_endpoint" "ecr_api" {
 
   security_group_ids = [
     aws_security_group.allow_incoming_https.id,
+  ]
+
+  subnet_ids = [
+    aws_subnet.private_snet_app_a.id,
+    aws_subnet.private_snet_app_b.id,
+    aws_subnet.private_snet_app_c.id,
   ]
 
   private_dns_enabled = true
