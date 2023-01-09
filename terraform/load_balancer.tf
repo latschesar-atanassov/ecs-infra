@@ -26,8 +26,10 @@ resource "aws_lb" "private" {
   enable_deletion_protection = false
 }
 
-resource "aws_alb_target_group" "main" {
-  name        = "ecs-tg"
+
+
+resource "aws_alb_target_group" "public" {
+  name        = local.public_alb_target_group
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
@@ -44,29 +46,52 @@ resource "aws_alb_target_group" "main" {
   }
 
   tags = {
-    Name        = "ecs-tg"
+    Name        = local.public_alb_target_group
     Environment = local.environment
   }
 }
 
-resource "aws_alb_listener" "private_http_redirect" {
+resource "aws_alb_target_group" "private" {
+  name        = local.private_alb_target_group
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.main.id
+  target_type = "ip"
+
+  health_check {
+    healthy_threshold   = "3"
+    interval            = "30"
+    protocol            = "HTTP"
+    matcher             = "200"
+    timeout             = "3"
+    path                = "/"
+    unhealthy_threshold = "2"
+  }
+
+  tags = {
+    Name        = local.private_alb_target_group
+    Environment = local.environment
+  }
+}
+
+resource "aws_alb_listener" "private_http" {
   load_balancer_arn = aws_lb.private.id
   port              = 80
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_alb_target_group.main.id
+    target_group_arn = aws_alb_target_group.private.id
     type             = "forward"
   }
 }
 
-resource "aws_alb_listener" "public_http_redirect" {
+resource "aws_alb_listener" "public_http" {
   load_balancer_arn = aws_lb.public.id
   port              = 80
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_alb_target_group.main.id
+    target_group_arn = aws_alb_target_group.public.id
     type             = "forward"
   }
 }
