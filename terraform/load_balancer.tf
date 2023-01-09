@@ -43,6 +43,7 @@ resource "aws_alb_target_group" "public" {
     timeout             = "3"
     path                = "/"
     unhealthy_threshold = "2"
+    port                = 8080
   }
 
   tags = {
@@ -66,6 +67,7 @@ resource "aws_alb_target_group" "private" {
     timeout             = "3"
     path                = "/"
     unhealthy_threshold = "2"
+    port                = 8080
   }
 
   tags = {
