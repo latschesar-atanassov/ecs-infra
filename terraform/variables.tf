@@ -1,3 +1,6 @@
+variable "vpc_cidr_block" {
+  default = "10.0.0.0/16"
+}
 variable "private_snet_alb_a_cidr_block" {
   default = "10.0.31.0/24"
 }

@@ -320,6 +320,30 @@ resource "aws_security_group" "allow_incoming_http_https_from_internet" {
   }
 }
 
+resource "aws_security_group" "allow_incoming_http_https_from_vpc" {
+  name   = "allow_incoming_http_https_from_vpc"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 80
+    cidr_blocks = [var.vpc_cidr_block]
+  }
+
+  ingress {
+    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 443
+    cidr_blocks = [var.vpc_cidr_block]
+  }
+
+  tags = {
+    Name        = "allow_incoming_http_https_from_vpc"
+    Environment = local.environment
+  }
+}
+
 resource "aws_security_group" "allow_incoming_https_from_app" {
   name   = "allow_incoming_https_from_app"
   vpc_id = aws_vpc.main.id
