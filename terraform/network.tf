@@ -221,78 +221,78 @@ resource "aws_route_table_association" "private_snet_data_c_rta" {
 }
 
 
-resource "aws_vpc_endpoint" "s3" {
-  vpc_id            = aws_vpc.main.id
-  service_name      = "com.amazonaws.eu-central-1.s3"
-  vpc_endpoint_type = "Interface"
+# resource "aws_vpc_endpoint" "s3" {
+#   vpc_id            = aws_vpc.main.id
+#   service_name      = "com.amazonaws.eu-central-1.s3"
+#   vpc_endpoint_type = "Interface"
 
-  security_group_ids = [
-    aws_security_group.private_vpc_endpoints.id,
-  ]
+#   security_group_ids = [
+#     aws_security_group.private_vpc_endpoints.id,
+#   ]
 
-  subnet_ids = [
-    aws_subnet.private_snet_app_a.id,
-    aws_subnet.private_snet_app_b.id,
-    aws_subnet.private_snet_app_c.id,
-  ]
+#   subnet_ids = [
+#     aws_subnet.private_snet_app_a.id,
+#     aws_subnet.private_snet_app_b.id,
+#     aws_subnet.private_snet_app_c.id,
+#   ]
 
-  private_dns_enabled = false
-}
+#   private_dns_enabled = false
+# }
 
-resource "aws_vpc_endpoint" "cloudwatch" {
-  vpc_id            = aws_vpc.main.id
-  service_name      = "com.amazonaws.eu-central-1.logs"
-  vpc_endpoint_type = "Interface"
+# resource "aws_vpc_endpoint" "cloudwatch" {
+#   vpc_id            = aws_vpc.main.id
+#   service_name      = "com.amazonaws.eu-central-1.logs"
+#   vpc_endpoint_type = "Interface"
 
-  security_group_ids = [
-    aws_security_group.private_vpc_endpoints.id,
-  ]
+#   security_group_ids = [
+#     aws_security_group.private_vpc_endpoints.id,
+#   ]
 
-  subnet_ids = [
-    aws_subnet.private_snet_app_a.id,
-    aws_subnet.private_snet_app_b.id,
-    aws_subnet.private_snet_app_c.id,
-  ]
+#   subnet_ids = [
+#     aws_subnet.private_snet_app_a.id,
+#     aws_subnet.private_snet_app_b.id,
+#     aws_subnet.private_snet_app_c.id,
+#   ]
 
-  private_dns_enabled = true
-}
+#   private_dns_enabled = true
+# }
 
-resource "aws_vpc_endpoint" "ecr_dkr" {
-  vpc_id            = aws_vpc.main.id
-  service_name      = "com.amazonaws.eu-central-1.ecr.dkr"
-  vpc_endpoint_type = "Interface"
+# resource "aws_vpc_endpoint" "ecr_dkr" {
+#   vpc_id            = aws_vpc.main.id
+#   service_name      = "com.amazonaws.eu-central-1.ecr.dkr"
+#   vpc_endpoint_type = "Interface"
 
-  security_group_ids = [
-    aws_security_group.private_vpc_endpoints.id,
-  ]
+#   security_group_ids = [
+#     aws_security_group.private_vpc_endpoints.id,
+#   ]
 
-  subnet_ids = [
-    aws_subnet.private_snet_app_a.id,
-    aws_subnet.private_snet_app_b.id,
-    aws_subnet.private_snet_app_c.id,
-  ]
+#   subnet_ids = [
+#     aws_subnet.private_snet_app_a.id,
+#     aws_subnet.private_snet_app_b.id,
+#     aws_subnet.private_snet_app_c.id,
+#   ]
 
-  private_dns_enabled = true
-}
+#   private_dns_enabled = true
+# }
 
 
-resource "aws_vpc_endpoint" "ecr_api" {
-  vpc_id            = aws_vpc.main.id
-  service_name      = "com.amazonaws.eu-central-1.ecr.api"
-  vpc_endpoint_type = "Interface"
+# resource "aws_vpc_endpoint" "ecr_api" {
+#   vpc_id            = aws_vpc.main.id
+#   service_name      = "com.amazonaws.eu-central-1.ecr.api"
+#   vpc_endpoint_type = "Interface"
 
-  security_group_ids = [
-    aws_security_group.private_vpc_endpoints.id,
-  ]
+#   security_group_ids = [
+#     aws_security_group.private_vpc_endpoints.id,
+#   ]
 
-  subnet_ids = [
-    aws_subnet.private_snet_app_a.id,
-    aws_subnet.private_snet_app_b.id,
-    aws_subnet.private_snet_app_c.id,
-  ]
+#   subnet_ids = [
+#     aws_subnet.private_snet_app_a.id,
+#     aws_subnet.private_snet_app_b.id,
+#     aws_subnet.private_snet_app_c.id,
+#   ]
 
-  private_dns_enabled = true
-}
+#   private_dns_enabled = true
+# }
 
 // security group
 
