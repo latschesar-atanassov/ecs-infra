@@ -1,5 +1,5 @@
 resource "aws_lb" "public" {
-  name               = "ecs-alb"
+  name               = "ecs-public-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.allow_incoming_http_https_from_internet.id]
@@ -13,7 +13,7 @@ resource "aws_lb" "public" {
 }
 
 resource "aws_lb" "private" {
-  name               = "ecs-alb"
+  name               = "ecs-private-alb"
   internal           = true
   load_balancer_type = "application"
   security_groups    = [aws_security_group.allow_incoming_http_https_from_vpc.id]
