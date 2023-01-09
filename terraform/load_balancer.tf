@@ -42,6 +42,11 @@ resource "aws_alb_target_group" "main" {
     path                = "/"
     unhealthy_threshold = "2"
   }
+
+  tags = {
+    Name        = "ecs-tg"
+    Environment = local.environment
+  }
 }
 
 resource "aws_alb_listener" "private_http_redirect" {
