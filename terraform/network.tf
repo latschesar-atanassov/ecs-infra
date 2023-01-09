@@ -44,6 +44,36 @@ resource "aws_subnet" "public_snet_c" {
   }
 }
 
+resource "aws_subnet" "private_snet_alb_a" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_snet_alb_a_cidr_block
+  availability_zone = "eu-central-1a"
+  tags = {
+    Name        = "${local.name_prefix}_private_snet_app_a"
+    Environment = local.environment
+  }
+}
+
+resource "aws_subnet" "private_snet_alb_b" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_snet_alb_b_cidr_block
+  availability_zone = "eu-central-1b"
+  tags = {
+    Name        = "${local.name_prefix}_private_snet_app_b"
+    Environment = local.environment
+  }
+}
+
+resource "aws_subnet" "private_snet_alb_c" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_snet_alb_c_cidr_block
+  availability_zone = "eu-central-1c"
+  tags = {
+    Name        = "${local.name_prefix}_private_snet_app_c"
+    Environment = local.environment
+  }
+}
+
 resource "aws_subnet" "private_snet_app_a" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_snet_app_a_cidr_block
