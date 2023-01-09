@@ -304,6 +304,13 @@ resource "aws_security_group" "public_alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = [var.vpc_cidr_block]
+  }
+
   tags = {
     Name        = "public_alb"
     Environment = local.environment
@@ -328,6 +335,13 @@ resource "aws_security_group" "private_alb" {
     cidr_blocks = [var.vpc_cidr_block]
   }
 
+  egress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = [var.vpc_cidr_block]
+  }
+
   tags = {
     Name        = "private_alb"
     Environment = local.environment
@@ -342,6 +356,13 @@ resource "aws_security_group" "private_vpc_endpoints" {
     protocol    = "tcp"
     from_port   = 443
     to_port     = 443
+    cidr_blocks = [var.vpc_cidr_block]
+  }
+
+  egress {
+    protocol    = -1
+    from_port   = 0
+    to_port     = 0
     cidr_blocks = [var.vpc_cidr_block]
   }
 
