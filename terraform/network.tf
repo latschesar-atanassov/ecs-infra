@@ -49,7 +49,7 @@ resource "aws_subnet" "private_snet_alb_a" {
   cidr_block        = var.private_snet_alb_a_cidr_block
   availability_zone = "eu-central-1a"
   tags = {
-    Name        = "${local.name_prefix}_private_snet_app_a"
+    Name        = "${local.name_prefix}_private_snet_alb_a"
     Environment = local.environment
   }
 }
@@ -59,7 +59,7 @@ resource "aws_subnet" "private_snet_alb_b" {
   cidr_block        = var.private_snet_alb_b_cidr_block
   availability_zone = "eu-central-1b"
   tags = {
-    Name        = "${local.name_prefix}_private_snet_app_b"
+    Name        = "${local.name_prefix}_private_snet_alb_b"
     Environment = local.environment
   }
 }
@@ -69,7 +69,7 @@ resource "aws_subnet" "private_snet_alb_c" {
   cidr_block        = var.private_snet_alb_c_cidr_block
   availability_zone = "eu-central-1c"
   tags = {
-    Name        = "${local.name_prefix}_private_snet_app_c"
+    Name        = "${local.name_prefix}_private_snet_alb_c"
     Environment = local.environment
   }
 }
