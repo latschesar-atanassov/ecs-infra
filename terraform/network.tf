@@ -342,14 +342,14 @@ resource "aws_security_group" "private_vpc_endpoints" {
     protocol    = "tcp"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = "0.0.0.0/0"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
     protocol    = "tcp"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = "0.0.0.0/0"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
