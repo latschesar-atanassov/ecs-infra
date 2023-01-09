@@ -339,17 +339,20 @@ resource "aws_security_group" "private_vpc_endpoints" {
   vpc_id = aws_vpc.main.id
 
   ingress {
-    protocol  = "tcp"
-    from_port = 0
-    to_port   = 443
-    cidr_blocks = [
-      var.private_snet_app_a_cidr_block,
-      var.private_snet_app_b_cidr_block,
-      var.private_snet_app_c_cidr_block
-    ]
+    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = "0.0.0.0/0"
   }
 
-    tags = {
+  egress {
+    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = "0.0.0.0/0"
+  }
+
+  tags = {
     Name        = "private_vpc_endpoints"
     Environment = local.environment
   }
