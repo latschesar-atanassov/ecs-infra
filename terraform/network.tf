@@ -292,14 +292,14 @@ resource "aws_security_group" "public_alb" {
 
   ingress {
     protocol    = "tcp"
-    from_port   = 0
+    from_port   = 80
     to_port     = 80
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     protocol    = "tcp"
-    from_port   = 0
+    from_port   = 443
     to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -316,14 +316,14 @@ resource "aws_security_group" "private_alb" {
 
   ingress {
     protocol    = "tcp"
-    from_port   = 0
+    from_port   = 80
     to_port     = 80
     cidr_blocks = [var.vpc_cidr_block]
   }
 
   ingress {
     protocol    = "tcp"
-    from_port   = 0
+    from_port   = 443
     to_port     = 443
     cidr_blocks = [var.vpc_cidr_block]
   }
@@ -340,16 +340,9 @@ resource "aws_security_group" "private_vpc_endpoints" {
 
   ingress {
     protocol    = "tcp"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    protocol    = "tcp"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 443
+    to_port     = 443
+    cidr_blocks = [var.vpc_cidr_block]
   }
 
   tags = {
