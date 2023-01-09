@@ -227,7 +227,7 @@ resource "aws_vpc_endpoint" "s3" {
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.allow_incoming_https_from_app.id,
+    aws_security_group.private_vpc_endpoints.id,
   ]
 
   subnet_ids = [
@@ -245,7 +245,7 @@ resource "aws_vpc_endpoint" "cloudwatch" {
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.allow_incoming_https_from_app.id,
+    aws_security_group.private_vpc_endpoints.id,
   ]
 
   subnet_ids = [
@@ -263,7 +263,7 @@ resource "aws_vpc_endpoint" "ecr_dkr" {
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.allow_incoming_https_from_app.id,
+    aws_security_group.private_vpc_endpoints.id,
   ]
 
   subnet_ids = [
@@ -282,7 +282,7 @@ resource "aws_vpc_endpoint" "ecr_api" {
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.allow_incoming_https_from_app.id,
+    aws_security_group.private_vpc_endpoints.id,
   ]
 
   subnet_ids = [
@@ -296,8 +296,8 @@ resource "aws_vpc_endpoint" "ecr_api" {
 
 // security group
 
-resource "aws_security_group" "allow_incoming_http_https_from_internet" {
-  name   = "allow_incoming_http_https_from_internet"
+resource "aws_security_group" "public_alb" {
+  name   = "public_alb"
   vpc_id = aws_vpc.main.id
 
   ingress {
@@ -315,13 +315,13 @@ resource "aws_security_group" "allow_incoming_http_https_from_internet" {
   }
 
   tags = {
-    Name        = "allow_incoming_http_https_from_internet"
+    Name        = "public_alb"
     Environment = local.environment
   }
 }
 
-resource "aws_security_group" "allow_incoming_http_https_from_vpc" {
-  name   = "allow_incoming_http_https_from_vpc"
+resource "aws_security_group" "private_alb" {
+  name   = "private_alb"
   vpc_id = aws_vpc.main.id
 
   ingress {
@@ -339,13 +339,13 @@ resource "aws_security_group" "allow_incoming_http_https_from_vpc" {
   }
 
   tags = {
-    Name        = "allow_incoming_http_https_from_vpc"
+    Name        = "private_alb"
     Environment = local.environment
   }
 }
 
-resource "aws_security_group" "allow_incoming_https_from_app" {
-  name   = "allow_incoming_https_from_app"
+resource "aws_security_group" "private_vpc_endpoints" {
+  name   = "private_vpc_endpoints"
   vpc_id = aws_vpc.main.id
 
   ingress {
@@ -357,6 +357,11 @@ resource "aws_security_group" "allow_incoming_https_from_app" {
       var.private_snet_app_b_cidr_block,
       var.private_snet_app_c_cidr_block
     ]
+  }
+
+    tags = {
+    Name        = "private_vpc_endpoints"
+    Environment = local.environment
   }
 }
 

@@ -2,7 +2,7 @@ resource "aws_lb" "public" {
   name               = "ecs-public-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.allow_incoming_http_https_from_internet.id]
+  security_groups    = [aws_security_group.public_alb.id]
   subnets = [
     aws_subnet.public_snet_a.id,
     aws_subnet.public_snet_b.id,
@@ -16,7 +16,7 @@ resource "aws_lb" "private" {
   name               = "ecs-private-alb"
   internal           = true
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.allow_incoming_http_https_from_vpc.id]
+  security_groups    = [aws_security_group.private_alb.id]
   subnets = [
     aws_subnet.private_snet_alb_a.id,
     aws_subnet.private_snet_alb_b.id,
